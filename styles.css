@@ -1,0 +1,57 @@
+html,
+body {
+  background-color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0%;
+}
+
+.container {
+  padding: 2vmin;
+  background-color: black;
+  border-radius: 3vmin;
+}
+
+.display {
+  height: 10vmin;
+  border-radius: 0.5rem;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.output,
+.equation {
+  padding-top: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.equation {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.delete {
+  float: right;
+}
+
+button {
+  font-size: 2rem;
+  line-height: 3vmin;
+  font-weight: 900;
+  height: 10vmin;
+  width: 10vmin;
+  vertical-align: middle;
+  margin-block-end: 1vmin;
+}
+
+.equals {
+  background-color: orangered;
+}
