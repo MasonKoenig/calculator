@@ -39,10 +39,6 @@ body {
   font-weight: 500;
 }
 
-.delete {
-  float: right;
-}
-
 button {
   font-size: 2rem;
   line-height: 3vmin;
@@ -53,6 +49,18 @@ button {
   margin-block-end: 1vmin;
 }
 
-.equals {
+.num {
+  border-radius: 50%;
+}
+
+.clear {
+  background-color: maroon;
+}
+
+#divide {
+  float: right;
+}
+
+#equals {
   background-color: orangered;
 }
