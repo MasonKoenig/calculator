@@ -33,23 +33,40 @@ function logNum(value) {
 }
 
 function logDecimal() {
-  if (currentValue.includes('.') == false) return (currentValue += '.');
+  if (currentValue.includes('.') === false) currentValue += '.';
+}
+
+function setNegative() {
+  if (currentValue !== '') {
+    if (currentValue.includes('-') === false)
+      currentValue = -1 * Number(currentValue);
+  }
+  if (currentValue === '') {
+    previousValue = -1 * Number(previousValue);
+  }
+  updateDisplay();
 }
 
 function add(a, b) {
-  return (currentValue = Number(a) + Number(b));
+  currentValue = Number(a) + Number(b);
 }
 
 function subtract(a, b) {
-  return (currentValue = Number(a) - Number(b));
+  currentValue = Number(a) - Number(b);
 }
 
 function multiply(a, b) {
-  return (currentValue = Number(a) * Number(b));
+  currentValue = Number(a) * Number(b);
 }
 
 function divide(a, b) {
-  return (currentValue = Number(a) / Number(b));
+  if (b === '0') {
+    currentValue = 'Not funny';
+    operator = '';
+    previousValue = '';
+  } else {
+    currentValue = Number(a) / Number(b);
+  }
 }
 
 function operate(op, a, b) {
@@ -57,21 +74,27 @@ function operate(op, a, b) {
   if (op === '-') subtract(a, b);
   if (op === '*') multiply(a, b);
   if (op === '/') divide(a, b);
+  updateDisplay();
 }
 
 function storeNum() {
   previousValue = String(currentValue);
   currentValue = '';
+  updateDisplay();
 }
 
 function storeOperator(op) {
-  if (operator === '' && previousValue === '') {
+  if (previousValue === '' && operator === '' && currentValue !== '') {
     operator = op;
     storeNum();
-    updateDisplay();
-  } else if (currentValue !== '' && operator !== '' && currentValue !== '') {
-    operate(op, previousValue, currentValue);
+  } else if (previousValue !== '' && operator !== '' && currentValue !== '') {
+    operate(operator, previousValue, currentValue);
+    operator = op;
     storeNum();
+  } else if (previousValue !== '' && operator === '' && currentValue !== '') {
+    storeNum();
+    operator = op;
+  } else if (previousValue !== '' && operator === '' && currentValue === '') {
     operator = op;
     updateDisplay();
   }
@@ -101,6 +124,9 @@ buttons.forEach((button) => {
     }
     if (button.id === 'divide') {
       storeOperator('/');
+    }
+    if (button.id === 'negative') {
+      setNegative();
     }
     console.log(previousValue, operator, currentValue);
   });
