@@ -20,14 +20,11 @@ function del() {
 }
 
 function updateDisplay() {
-  // equation.textContent = currentValue;
-  // output.textContent = previousValue;
-  let upper = `${previousValue} ${operator} ${currentValue}`;
-  if (upper.length <= 30) return (equation.textContent = upper);
-  if (upper.length > 30) return (equation.textContent = upper.substring(0, 30));
-  let lower = previousValue;
-  if (lower.length <= 14) return (output.textContent = lower);
-  if (lower.length > 14) return (output.textContent = lower.toExponential(10));
+  if (previousValue === '') {
+    output.textContent = currentValue;
+  } else if (currentValue === '') {
+    output.textContent = previousValue;
+  } else output.textContent = currentValue;
 }
 
 function logNum(value) {
@@ -39,24 +36,72 @@ function logDecimal() {
   if (currentValue.includes('.') == false) return (currentValue += '.');
 }
 
-function add() {
-  if (operator == '') {
-    previousValue = currentValue;
-    currentValue = '';
-    operator = '+';
+function add(a, b) {
+  return (currentValue = Number(a) + Number(b));
+}
+
+function subtract(a, b) {
+  return (currentValue = Number(a) - Number(b));
+}
+
+function multiply(a, b) {
+  return (currentValue = Number(a) * Number(b));
+}
+
+function divide(a, b) {
+  return (currentValue = Number(a) / Number(b));
+}
+
+function operate(op, a, b) {
+  if (op === '+') add(a, b);
+  if (op === '-') subtract(a, b);
+  if (op === '*') multiply(a, b);
+  if (op === '/') divide(a, b);
+}
+
+function storeNum() {
+  previousValue = String(currentValue);
+  currentValue = '';
+}
+
+function storeOperator(op) {
+  if (operator === '' && previousValue === '') {
+    operator = op;
+    storeNum();
     updateDisplay();
-  } else {
-    previousValue = previousValue + currentValue;
+  } else if (currentValue !== '' && operator !== '' && currentValue !== '') {
+    operate(op, previousValue, currentValue);
+    storeNum();
+    operator = op;
     updateDisplay();
   }
 }
 
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
-    if (button.className == 'clear') return clear();
-    if (button.className == 'delete') return del();
-    if (button.className == 'num') return logNum(button.textContent);
-    if (button.id == 'decimal') return logDecimal();
-    if (button.id == 'plus') return add();
+    if (button.className === 'clear') clear();
+    if (button.className === 'delete') del();
+    if (button.className === 'num') logNum(button.textContent);
+    if (button.id === 'decimal') logDecimal();
+    if (button.id === 'equals') {
+      operate(operator, previousValue, currentValue);
+      operator = '';
+      previousValue = currentValue;
+      currentValue = '';
+      updateDisplay();
+    }
+    if (button.id === 'plus') {
+      storeOperator('+');
+    }
+    if (button.id === 'minus') {
+      storeOperator('-');
+    }
+    if (button.id === 'times') {
+      storeOperator('*');
+    }
+    if (button.id === 'divide') {
+      storeOperator('/');
+    }
+    console.log(previousValue, operator, currentValue);
   });
 });
